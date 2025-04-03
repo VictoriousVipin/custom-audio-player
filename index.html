@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Custom Audio Player</title>
+        <link rel="stylesheet" href="dist/styles.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    </head>
+    <body>
+        <div class="player">
+            <div class="player__container">
+                <audio id="audio" class="player__audio" src="test.mp3"></audio>
+
+                <div class="player__controls">
+                    <div class="progress">
+                        <div class="progress__bar">
+                            <div class="progress__fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="controls">
+                        <button
+                            id="play-pause"
+                            class="controls__btn controls__btn--play"
+                        >
+                            <i class="fas fa-play"></i>
+                        </button>
+
+                        <div class="time">
+                            <span id="current-time" class="time__current"
+                                >00:00</span
+                            >
+                            <span class="time__separator">/</span>
+                            <span id="duration" class="time__total">00:00</span>
+                        </div>
+
+                        <div class="volume">
+                            <button
+                                id="mute"
+                                class="controls__btn controls__btn--volume"
+                            >
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <div class="volume__slider">
+                                <input
+                                    type="range"
+                                    id="volume"
+                                    class="volume__range"
+                                    min="0"
+                                    max="100"
+                                    value="100"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="speed">
+                            <div class="speed__dropdown">
+                                <div class="speed__header">
+                                    <span class="speed__current">1x</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="speed__menu">
+                                    <div class="speed__option" data-speed="0.5">
+                                        0.5x
+                                    </div>
+                                    <div class="speed__option" data-speed="1">
+                                        1x
+                                    </div>
+                                    <div class="speed__option" data-speed="1.5">
+                                        1.5x
+                                    </div>
+                                    <div class="speed__option" data-speed="2">
+                                        2x
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="dist/script.js"></script>
+    </body>
+</html>

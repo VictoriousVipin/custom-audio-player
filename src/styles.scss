@@ -1,0 +1,220 @@
+// Variables
+$color-primary: #ff69b4;
+$color-background: #f0f0f0;
+$color-white: #fff;
+$color-gray: #666;
+$color-light-gray: #eee;
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin hover-transition {
+    transition: all 0.2s ease;
+    &:hover {
+        background-color: rgba($color-primary, 0.1);
+    }
+}
+
+// Reset
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    @include flex-center;
+    min-height: 100vh;
+    background-color: $color-background;
+    font-family: Arial, sans-serif;
+}
+
+// Player Component
+.player {
+    background-color: $color-white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 400px;
+
+    &__container {
+        width: 100%;
+    }
+
+    &__controls {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+// Progress Component
+.progress {
+    width: 100%;
+    cursor: pointer;
+    padding: 10px 0;
+
+    &__bar {
+        background-color: $color-light-gray;
+        height: 5px;
+        border-radius: 3px;
+        position: relative;
+    }
+
+    &__fill {
+        background-color: $color-primary;
+        height: 100%;
+        border-radius: 3px;
+        width: 0;
+        position: relative;
+
+        &:hover::after {
+            content: "";
+            position: absolute;
+            right: -6px;
+            top: -4px;
+            width: 12px;
+            height: 12px;
+            background-color: $color-primary;
+            border-radius: 50%;
+        }
+    }
+
+    &:hover &__bar {
+        height: 8px;
+    }
+}
+
+// Controls Component
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    &__btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: $color-primary;
+        font-size: 24px;
+        padding: 5px;
+        transition: transform 0.2s;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
+
+// Time Component
+.time {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: $color-gray;
+    font-size: 14px;
+    min-width: 90px;
+
+    &__separator {
+        color: $color-primary;
+        margin: 0 2px;
+    }
+}
+
+// Volume Component
+.volume {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+
+    &__slider {
+        width: 100px;
+        position: relative;
+    }
+
+    &__range {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 5px;
+        background: $color-light-gray;
+        border-radius: 3px;
+        outline: none;
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: $color-primary;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    }
+}
+
+// Speed Component
+.speed {
+    &__dropdown {
+        position: relative;
+        width: 80px;
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background-color: $color-white;
+        border: 2px solid $color-primary;
+        border-radius: 5px;
+        cursor: pointer;
+        color: $color-primary;
+        font-size: 14px;
+        @include hover-transition;
+
+        i {
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+    }
+
+    &__menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: $color-white;
+        border: 2px solid $color-primary;
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+        display: none;
+        z-index: 1000;
+    }
+
+    &__option {
+        padding: 8px 12px;
+        cursor: pointer;
+        color: $color-gray;
+        font-size: 14px;
+        @include hover-transition;
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+
+    &__dropdown.active {
+        .speed__menu {
+            display: block;
+        }
+
+        .speed__header i {
+            transform: rotate(180deg);
+        }
+    }
+}
