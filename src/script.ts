@@ -12,6 +12,7 @@ class AudioPlayer {
     private speedCurrent: JQuery<HTMLElement>;
     private speedOptions: JQuery<HTMLElement>;
     private isDragging: boolean = false;
+    private readonly KEYBOARD_SEEK_STEP: number = 5; // 5 seconds step for keyboard navigation
 
     constructor() {
         // Initialize DOM elements
@@ -89,15 +90,56 @@ class AudioPlayer {
             this.speedDropdown.removeClass("active");
         });
 
-        // Update progress
+        // Progress bar keyboard controls
+        this.progressContainer.on("keydown", (e: JQuery.KeyDownEvent) => {
+            const currentTime = this.audio.currentTime;
+            const duration = this.audio.duration;
+            let newTime = currentTime;
+
+            switch (e.key) {
+                case "ArrowLeft":
+                    e.preventDefault();
+                    newTime = Math.max(0, currentTime - this.KEYBOARD_SEEK_STEP);
+                    break;
+                case "ArrowRight":
+                    e.preventDefault();
+                    newTime = Math.min(duration, currentTime + this.KEYBOARD_SEEK_STEP);
+                    break;
+                case "Home":
+                    e.preventDefault();
+                    newTime = 0;
+                    break;
+                case "End":
+                    e.preventDefault();
+                    newTime = duration;
+                    break;
+            }
+
+            if (newTime !== currentTime) {
+                this.audio.currentTime = newTime;
+                this.updateProgress();
+                this.updateAriaValues();
+            }
+        });
+
+        // Update ARIA values when progress changes
         $(this.audio).on("timeupdate", () => {
             if (!this.isDragging) {
                 this.updateProgress();
+                this.updateAriaValues();
             }
         });
 
         // Handle ending
         $(this.audio).on("ended", () => this.handleAudioEnd());
+    }
+
+    private updateAriaValues(): void {
+        const percent = (this.audio.currentTime / this.audio.duration) * 100;
+        this.progressContainer.attr("aria-valuenow", Math.round(percent).toString());
+        this.progressContainer.attr("aria-valuetext", 
+            `${this.formatTime(this.audio.currentTime)} of ${this.formatTime(this.audio.duration)}`
+        );
     }
 
     private handleProgressBarInteraction(e: JQuery.MouseEventBase): void {
@@ -114,6 +156,7 @@ class AudioPlayer {
         
         // Always update audio time for immediate feedback
         this.audio.currentTime = newTime;
+        this.updateAriaValues();
     }
 
     private formatTime(seconds: number): string {

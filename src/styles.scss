@@ -58,13 +58,21 @@ body {
     cursor: pointer;
     padding: 10px 0;
     position: relative;
+    outline: none;
+
+    &:focus {
+        .progress__bar {
+            background-color: #ffeb3b;
+            height: 8px;
+        }
+    }
 
     &__bar {
         background-color: $color-light-gray;
         height: 5px;
         border-radius: 3px;
         position: relative;
-        transition: height 0.2s ease;
+        transition: all 0.2s ease;
 
         &:hover {
             height: 8px;
