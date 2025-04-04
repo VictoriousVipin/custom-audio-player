@@ -57,12 +57,18 @@ body {
     width: 100%;
     cursor: pointer;
     padding: 10px 0;
+    position: relative;
 
     &__bar {
         background-color: $color-light-gray;
         height: 5px;
         border-radius: 3px;
         position: relative;
+        transition: height 0.2s ease;
+
+        &:hover {
+            height: 8px;
+        }
     }
 
     &__fill {
@@ -71,21 +77,41 @@ body {
         border-radius: 3px;
         width: 0;
         position: relative;
+        transition: width 0.1s linear;
 
-        &:hover::after {
+        &::after {
             content: "";
             position: absolute;
             right: -6px;
-            top: -4px;
+            top: 50%;
             width: 12px;
             height: 12px;
-            background-color: $color-primary;
+            background-color: $color-white;
+            border: 2px solid $color-primary;
             border-radius: 50%;
+            transform: translate(0, -50%) scale(0);
+            transition: transform 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
     }
 
-    &:hover &__bar {
-        height: 8px;
+    &:hover {
+        .progress__fill::after {
+            transform: translate(0, -50%) scale(1);
+        }
+    }
+
+    // Clickable area
+    &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 20px;
+        transform: translateY(-50%);
+        background-color: transparent;
+        z-index: 1;
     }
 }
 
